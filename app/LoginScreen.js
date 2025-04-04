@@ -1,41 +1,45 @@
 import * as React from 'react';
-import { ScrollView, Text, TextInput, StyleSheet, Pressable } from 'react-native';
+import { useColorScheme, ScrollView, Text, TextInput, StyleSheet, Pressable } from 'react-native';
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
     const [email, onChangeEmail] = React.useState('');
     const [password, onChangePassword] = React.useState('');
-    const [logIn, setLogIn] = React.useState(false);
+    const colorScheme = useColorScheme();
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.headerText}>Welcome to Little Lemon</Text>
-            {logIn && <Text style={styles.headerText}>You are logged in!</Text>}
-            {!logIn && (
-                <>
-                    <Text style={styles.regularText}>Login to continue </Text>
+        <ScrollView style={[styles.container, colorScheme === 'light'
+            ? { backgroundColor: '#fff' }
+            : { backgroundColor: '#333333' },]}>
+            <Text style={[styles.headerText,
+            colorScheme === 'light' ? { color: '#333333' } : { color: '#EDEFEE' },
+            ]}>Welcome to Little Lemon</Text>
 
-                    <TextInput
-                        style={styles.inputBox}
-                        value={email}
-                        onChangeText={onChangeEmail}
-                        placeholder='email'
-                        keyboardType='email-address'
-                    />
-                    <TextInput
-                        style={styles.inputBox}
-                        value={password}
-                        onChangeText={onChangePassword}
-                        placeholder='password'
-                        secureTextEntry={true}
-                        keyboardType='default'
-                    />
-                    <Pressable onPress={() => {
-                        setLogIn(!logIn);
-                    }} style={styles.button}>
-                        <Text style={styles.buttonText}>Log in</Text>
-                    </Pressable>
-                </>
-            )}
+            <>
+                <Text style={[styles.regularText,
+                colorScheme === 'light' ? { color: '#333333' } : { color: '#EDEFEE' },
+                ]}>Login to continue </Text>
+
+                <TextInput
+                    style={styles.inputBox}
+                    value={email}
+                    onChangeText={onChangeEmail}
+                    placeholder='email'
+                    keyboardType='email-address'
+                />
+                <TextInput
+                    style={styles.inputBox}
+                    value={password}
+                    onChangeText={onChangePassword}
+                    placeholder='password'
+                    secureTextEntry={true}
+                    keyboardType='default'
+                />
+                <Pressable onPress={() => {
+                    navigation.navigate('Welcome');
+                }} style={styles.button}>
+                    <Text style={styles.buttonText}>Log in</Text>
+                </Pressable>
+            </>
         </ScrollView>
     );
 }
@@ -75,10 +79,10 @@ const styles = StyleSheet.create({
         borderColor: '#EE9972',
         borderWidth: 2,
         borderRadius: 50,
-      },
-      buttonText: {
+    },
+    buttonText: {
         color: 'black',
         textAlign: 'center',
         fontSize: 25,
-      },
+    },
 });
