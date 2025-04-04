@@ -1,47 +1,63 @@
 import * as React from 'react';
-import { KeyboardAvoidingView, Platform, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
+import { useColorScheme, View, Image, KeyboardAvoidingView, Platform, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
 
 export default function WelcomeScreen() {
     const [firstName, onChangeFirstName] = React.useState('');
     const [lastName, onChangeLastName] = React.useState('');
     const [message, onChangeMessage] = React.useState('');
+    const colorScheme = useColorScheme();
 
     return (
-        <KeyboardAvoidingView style={styles.container} 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <ScrollView indicatorStyle={'white'} keyboardDismissMode='on-drag'>
+        <KeyboardAvoidingView style={[styles.container, colorScheme === 'light'
+            ? { backgroundColor: '#fff' }
+            : { backgroundColor: '#333333' }, ]}
+            behavior = { Platform.OS === 'ios' ? 'padding' : 'height' } >
+        <ScrollView indicatorStyle={'white'} keyboardDismissMode='on-drag'>
+            <View style={styles.headerWrapper}>
+                <Image
+                    style={styles.image}
+                    source={require('../img/LittleLemonLogo.png')}
+                    resizeMode="cover"
+                    accessible={true}
+                    accessibilityLabel={'Little Lemon Logo'}
+                />
                 <Text
-                    style={styles.titleText}>
-                    Welcome to Little Lemon
+                    style={[styles.titleText,
+                        colorScheme === 'light' ? { color: '#333333' } : { color: '#EDEFEE' },
+                      ]}>
+                    Little Lemon
                 </Text>
-                <Text
-                    style={styles.text}>
-                    Little Lemon is a charming neighborhood bistro that serves simple food
-                    and classic cocktails in a lively but casual environment. We would love
-                    to hear your experience with us!
-                </Text>
-                <TextInput
-                    style={styles.inputBox}
-                    value={firstName}
-                    onChangeText={onChangeFirstName}
-                    placeholder='First Name'
-                />
-                <TextInput
-                    style={styles.inputBox}
-                    value={lastName}
-                    onChangeText={onChangeLastName}
-                    placeholder='Last Name'
-                />
-                <TextInput
-                    style={styles.messageBox}
-                    value={message}
-                    onChangeText={onChangeMessage}
-                    placeholder='Please leave feedback'
-                    multiline={true}
-                    maxLength={250} 
-                />
-            </ScrollView>
-        </KeyboardAvoidingView>
+            </View>
+            <Text
+                style={[styles.text,
+                    colorScheme === 'light' ? { color: '#333333' } : { color: '#EDEFEE' },
+                  ]}>
+                Little Lemon is a charming neighborhood bistro that serves simple food
+                and classic cocktails in a lively but casual environment. We would love
+                to hear your experience with us!
+            </Text>
+            <TextInput
+                style={styles.inputBox}
+                value={firstName}
+                onChangeText={onChangeFirstName}
+                placeholder='First Name'
+            />
+            <TextInput
+                style={styles.inputBox}
+                value={lastName}
+                onChangeText={onChangeLastName}
+                placeholder='Last Name'
+            />
+            <TextInput
+                style={styles.messageBox}
+                value={message}
+                onChangeText={onChangeMessage}
+                placeholder='Please leave feedback'
+                multiline={true}
+                maxLength={250}
+            />
+        </ScrollView>
+        </KeyboardAvoidingView >
     );
 }
 
@@ -79,5 +95,15 @@ const styles = StyleSheet.create({
         fontSize: 16,
         borderColor: 'EDEFEE',
         backgroundColor: '#EDEFEE',
+    },
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 20,
+    },
+    headerWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        margin: 10,
     },
 });
